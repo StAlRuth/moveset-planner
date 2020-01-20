@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      Pokemon Set Reverser
+    </title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.1/dist/css/foundation.min.css" integrity="sha256-Q2fXBbKhtsyhYrSLa7hXCNV+FdhbQhyrjks8Kic0u/U=" crossorigin="anonymous">
+    <link rel="stylesheet" href="index.css">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@StalruthVGC">
+    <meta name="twitter:title" content="Pokemon Moveset Planner">
+    <meta name="twitter:description" content="A tool that shows the source of all the moves of a given Pokemon.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <script src="learnsets.js" defer></script>
+    <script src="pokedex.js" defer></script>
+    <script src="index.js" defer></script>
+  </head>
+  <body>
+    <div class="grid-x">
+      <div class="cell small-12">
+        <label>Moveset:
+          <textarea id="moveset" rows=5></textarea>
+        </label>
+      </div>
+      <a class="button cell small-12" id="calculate">Calculate</a>
+      <div id="results" class="cell small12 hide">
+        <h2>Results:</h2>
+        <ul id="resultList">
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
