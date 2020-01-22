@@ -52,6 +52,9 @@
       case 'S':
         return ' from a special event.';
       case 'L':
+        if (extra == 0) {
+          return `upon evolution.`;
+        }
         return ` at level  ${extra}.`;
       case 'M':
         return ' from a TM or TR.';
