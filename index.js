@@ -69,7 +69,12 @@
   function getMethods(pokemon, move) {
     let learnset = BattleLearnsets[idify(pokemon)]['learnset'];
     let methods = [];
-    learnset[idify(move)].forEach(el => {
+    let allMethods = learnset[idify(move)];
+    if (allMethods === undefined) {
+      return methods;
+    }
+
+    allMethods.forEach(el => {
     if (el.startsWith('8')) {
         methods.push({name: pokemon, method: getLearnString(el)});
       }
@@ -77,33 +82,55 @@
     return methods;
   }
 
+  function walkEvoLine(name) {
+    let results = [BattlePokedex[idify(name)]['species']];
+    if("prevo" in BattlePokedex[idify(name)]) {
+      return results.concat(walkEvoLine(BattlePokedex[idify(name)]['prevo']));
+    }
+    if("baseForme" in BattlePokedex[idify(name)]) {
+      return results.concat(walkEvoLine(BattlePokedex[idify(name)]['baseSpecies']));
+    }
+    return results;
+  }
+
   function calc() {
     let moveset = parseSet(document.getElementById('moveset').value);
     let ids = idifySet(moveset);
     let list = document.getElementById('resultList');
+    let line = walkEvoLine(moveset['name'])
+
     while (list.firstChild) {
       list.firstChild.remove();
     }
-    ids['moves'].forEach((e, i, a) => {
+
+    let learnset = BattleLearnsets[ids['name']]['learnset'];
+    ids['moves'].forEach((move, i) => {
       let element = document.createElement('li');
-      let learnset = BattleLearnsets[ids['name']]['learnset'];
-      if (!(e  in learnset) || !(learnset[e][0].startsWith('8'))) {
+      let methods = [];
+      line.forEach(pokemon => {
+        methods = methods.concat(getMethods(pokemon, moveset['moves'][i]));
+      });
+      if (methods.length == 0) {
         element.textContent = moveset['name'] + ' does not learn ' + moveset['moves'][i] + ' in VGC2020.';
       } else {
-        let methods = [];
-        methods = methods.concat(getMethods(moveset['name'], moveset['moves'][i]));
         element.appendChild(document.createTextNode(moveset['name'] + ' learns ' + moveset['moves'][i]));
         if (methods.length > 1) {
           element.appendChild(document.createTextNode(':'));
           let ul = document.createElement('ul');
           methods.forEach(el => {
             let li = document.createElement('li');
-            li.appendChild(document.createTextNode(el["method"]));
+            li.appendChild(document.createTextNode((el["name"] !== moveset["name"] ? " as " + el["name"] : "")
+              + el["method"]));
             ul.appendChild(li);
           });
           element.appendChild(ul);
         } else {
-          element.appendChild(document.createTextNode(methods[0]["method"]));
+          element.appendChild(
+            document.createTextNode(
+              (methods[0]["name"] !== moveset["name"] ? " as " + methods[0]["name"] : "")
+              + methods[0]["method"]
+            )
+          );
         }
       }
       list.appendChild(element);
