@@ -29,16 +29,9 @@
     }
     return results;
   }
-  
+
   function idify(string) {
     return string.replace(/[^a-z0-9]/gi, '').toLowerCase();
-  }
-
-  function idifySet(reducedSet) {
-    let newSet = {'moves': []};
-    newSet['name'] = idify(reducedSet['name']);
-    reducedSet['moves'].forEach((el) => { newSet['moves'].push(idify(el)); });
-    return newSet;
   }
 
   function getLearnString(learnCode) {
@@ -53,7 +46,7 @@
         return ' from a special event.';
       case 'L':
         if (extra == 0) {
-          return `upon evolution.`;
+          return ' upon evolution.';
         }
         return ` at level  ${extra}.`;
       case 'M':
@@ -79,10 +72,24 @@
 
     allMethods.forEach(el => {
     if (el.startsWith('8')) {
-        methods.push({name: pokemon, method: getLearnString(el)});
+        methods.push({name: [pokemon], method: el});
       }
     });
     return methods;
+  }
+
+  function listify(words) {
+    let result = '';
+    words.reverse().forEach((word, pos) => {
+      if(pos == 0) {
+        result = word;
+      } else if (pos == 1) {
+        result = word + ' and ' + result;
+      } else {
+        result = word + ', ' + result;
+      }
+    });
+    return result;
   }
 
   function walkEvoLine(name) {
@@ -98,7 +105,6 @@
 
   function calc() {
     let moveset = parseSet(document.getElementById('moveset').value);
-    let ids = idifySet(moveset);
     let list = document.getElementById('resultList');
     let line = walkEvoLine(moveset['name'])
 
@@ -106,32 +112,43 @@
       list.firstChild.remove();
     }
 
-    let learnset = BattleLearnsets[ids['name']]['learnset'];
-    ids['moves'].forEach((move, i) => {
+    let learnset = BattleLearnsets[idify(moveset['name'])]['learnset'];
+    moveset['moves'].forEach((move) => {
       let element = document.createElement('li');
       let methods = [];
+
       line.forEach(pokemon => {
-        methods = methods.concat(getMethods(pokemon, moveset['moves'][i]));
+        //methods = methods.concat(getMethods(pokemon, move));
+        getMethods(pokemon, move).forEach(method => {
+          for(let i = 0; i < methods.length; i++) {
+            if(methods[i]['method'] === method['method']) {
+              methods[i]['name'] = [method['name']].concat(methods[i]['name'])
+              return;
+            }
+          }
+          methods.push(method);
+        });
       });
+
       if (methods.length == 0) {
-        element.textContent = moveset['name'] + ' does not learn ' + moveset['moves'][i] + ' in VGC2020.';
+        element.textContent = moveset['name'] + ' does not learn ' + move + ' in VGC2020.';
       } else {
-        element.appendChild(document.createTextNode(moveset['name'] + ' learns ' + moveset['moves'][i]));
+        element.appendChild(document.createTextNode(moveset['name'] + ' learns ' + move));
         if (methods.length > 1) {
           element.appendChild(document.createTextNode(':'));
           let ul = document.createElement('ul');
           methods.forEach(el => {
             let li = document.createElement('li');
-            li.appendChild(document.createTextNode((el["name"] !== moveset["name"] ? " as " + el["name"] : "")
-              + el["method"]));
+            li.appendChild(document.createTextNode((el["name"] !== [moveset["name"]] ? " as " + listify(el["name"]) : "")
+              + getLearnString(el["method"])));
             ul.appendChild(li);
           });
           element.appendChild(ul);
         } else {
           element.appendChild(
             document.createTextNode(
-              (methods[0]["name"] !== moveset["name"] ? " as " + methods[0]["name"] : "")
-              + methods[0]["method"]
+              (methods[0]["name"] !== [moveset["name"]] ? " as " + listify(methods[0]["name"]) : "")
+              + getLearnString(methods[0]["method"])
             )
           );
         }
@@ -143,3 +160,4 @@
 
   document.getElementById('calculate').addEventListener('click', calc);
 }
+
