@@ -39,43 +39,27 @@
     let extra = learnCode.substring(2);
     switch(method) {
       case 'E':
-        return ' as an egg move.';
+        return ' as an Egg Move.';
       case 'D':
-        return ' from the dream world for vgc2020???';
+        return ' from the Dream World.';
       case 'S':
         return ' from a special event.';
       case 'L':
         if (extra == 0) {
           return ' upon evolution.';
         }
-        return ` at level  ${extra}.`;
+        return ` at level ${extra}.`;
       case 'M':
         return ' from a TM or TR.';
       case 'T':
         return ' from a Move Tutor';
       case 'X':
-        return ' as an egg, traded back. lmk if you see this as output @stalruthvgc';
+        return ' as an egg, traded back.';
       case 'Y':
-        return ' from an event, traded back.  lmk if you get this @stalruthvgc.';
+        return ' from an event, traded back.';
       case 'V':
-        return ' VC transfer. idk how that works for VGC20.';
+        return ' via VC transfer.';
     }
-  }
-
-  function getMethods(pokemon, move) {
-    let learnset = BattleLearnsets[idify(pokemon)]['learnset'];
-    let methods = [];
-    let allMethods = learnset[idify(move)];
-    if (allMethods === undefined) {
-      return methods;
-    }
-
-    allMethods.forEach(el => {
-    if (el.startsWith('8')) {
-        methods.push({name: [pokemon], method: el});
-      }
-    });
-    return methods;
   }
 
   function listify(words) {
@@ -90,6 +74,33 @@
       }
     });
     return result;
+  }
+
+  function getLearnSuffix(moveset, method) {
+    let prefix = "";
+    if (method["name"].length > 1 || method["name"][0] !== [moveset["name"]][0]) {
+      prefix = " as " + listify(method["name"])
+    }
+    if (method["method"][0] != 8) {
+      prefix += " in Generation " + method["method"][0];
+    }
+    return (prefix + getLearnString(method["method"]))
+  }
+
+  function getMethods(pokemon, move) {
+    let learnset = BattleLearnsets[idify(pokemon)]['learnset'];
+    let methods = [];
+    let allMethods = learnset[idify(move)];
+    if (allMethods === undefined) {
+      return methods;
+    }
+
+    allMethods.forEach(el => {
+    if (el[0] >= document.getElementById('mode-value').value) {
+        methods.push({name: [pokemon], method: el, gen: el[0]});
+      }
+    });
+    return methods;
   }
 
   function walkEvoLine(name) {
@@ -118,10 +129,10 @@
       let methods = [];
 
       line.forEach(pokemon => {
-        //methods = methods.concat(getMethods(pokemon, move));
         getMethods(pokemon, move).forEach(method => {
           for(let i = 0; i < methods.length; i++) {
             if(methods[i]['method'] === method['method']) {
+              console.log(methods[i]['method'], method['method'])
               methods[i]['name'] = [method['name']].concat(methods[i]['name'])
               return;
             }
@@ -139,18 +150,12 @@
           let ul = document.createElement('ul');
           methods.forEach(el => {
             let li = document.createElement('li');
-            li.appendChild(document.createTextNode((el["name"] !== [moveset["name"]] ? " as " + listify(el["name"]) : "")
-              + getLearnString(el["method"])));
+            li.appendChild(document.createTextNode(getLearnSuffix(moveset, el)));
             ul.appendChild(li);
           });
           element.appendChild(ul);
         } else {
-          element.appendChild(
-            document.createTextNode(
-              (methods[0]["name"] !== [moveset["name"]] ? " as " + listify(methods[0]["name"]) : "")
-              + getLearnString(methods[0]["method"])
-            )
-          );
+          element.appendChild(document.createTextNode(getLearnSuffix(moveset, methods[0])));
         }
       }
       list.appendChild(element);
@@ -159,5 +164,14 @@
   }
 
   document.getElementById('calculate').addEventListener('click', calc);
+
+  function setMinimumGeneration(gen) {
+    document.getElementById('mode-value').value = gen;
+    document.getElementById('mode-value').disabled = true;
+  }
+
+  document.getElementById('mode-vgc').addEventListener('click', () => {setMinimumGeneration(8);});
+  document.getElementById('mode-smogon').addEventListener('click', () => {setMinimumGeneration(3);});
+  document.getElementById('mode-custom').addEventListener('click', () => {document.getElementById('mode-value').disabled = false;});
 }
 
