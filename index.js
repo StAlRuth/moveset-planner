@@ -34,10 +34,8 @@
     return string.replace(/[^a-z0-9]/gi, '').toLowerCase();
   }
 
-  function getLearnString(learnCode) {
-    let method = learnCode[1];
-    let extra = learnCode.substring(2);
-    switch(method) {
+  function getLearnString(method) {
+    switch(method.method) {
       case 'E':
         return ' as an Egg Move.';
       case 'D':
@@ -45,10 +43,8 @@
       case 'S':
         return ' from a special event.';
       case 'L':
-        if (extra == 0) {
-          return ' upon evolution.';
-        }
-        return ` at level ${extra}.`;
+        const levels = listify(method.extra.map(i => { return i == 0 ? ' upon evolution' : i; }));
+        return ` at level ${levels}.`;
       case 'M':
         return ' from a TM or TR.';
       case 'T':
@@ -81,10 +77,10 @@
     if (method["name"].length > 1 || method["name"][0] !== [moveset["name"]][0]) {
       prefix = " as " + listify(method["name"])
     }
-    if (method["method"][0] != 8) {
-      prefix += " in Generation " + method["method"][0];
+    if (method["learnCode"][0] != 8) {
+      prefix += " in Generation " + method["learnCode"][0];
     }
-    return (prefix + getLearnString(method["method"]))
+    return (prefix + getLearnString(method))
   }
 
   function getMethods(pokemon, move) {
@@ -97,7 +93,7 @@
 
     allMethods.forEach(el => {
     if (el[0] >= document.getElementById('mode-value').value) {
-        methods.push({name: [pokemon], method: el, gen: el[0]});
+        methods.push({name: [pokemon], learnCode: el, gen: el[0], method: el[1], extra: [el.substring(2)]});
       }
     });
     return methods;
@@ -130,15 +126,32 @@
 
       line.forEach(pokemon => {
         getMethods(pokemon, move).forEach(method => {
-          for(let i = 0; i < methods.length; i++) {
-            if(methods[i]['method'] === method['method']) {
-              console.log(methods[i]['method'], method['method'])
-              methods[i]['name'] = [method['name']].concat(methods[i]['name'])
-              return;
-            }
-          }
           methods.push(method);
         });
+      });
+
+      collectedMethods = []
+
+      methods.forEach(method => {
+        for (i of collectedMethods) {
+          if (method.gen === i.gen && method.method === i.method && method.name.join(",") === i.name.join(",")) {
+            i.extra = [...method.extra, ...i.extra];
+            i.learnCode = i.learnCode.substring(0, 2);
+            return;
+          }
+        }
+        collectedMethods.push(method);
+      });
+
+      methods = [];
+      collectedMethods.forEach(method => {
+        for (i of methods) {
+          if (method.gen === i.gen && method.method === i.method && method.extra.join(",") === i.extra.join(",")) {
+            i.name = [...i.name, ...method.name];
+            return;
+          }
+        }
+        methods.push(method);
       });
 
       if (methods.length == 0) {
