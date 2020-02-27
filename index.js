@@ -1,6 +1,16 @@
 {
   'use strict'
 
+  const unsketchable = {
+    '2': ['selfdestruct', 'transform', 'explosion', 'metronome', 'mimic', 'sketch'],
+    '3': ['mimic', 'sketch'],
+    '4': ['mimic', 'sketch', 'chatter'],
+    '5': ['mimic', 'sketch', 'chatter'],
+    '6': ['mimic', 'sketch', 'chatter'],
+    '7': ['mimic', 'sketch', 'chatter'],
+    '8': ['mimic', 'sketch', 'chatter'],
+  };
+
   function parseSpecies(line) {
     const closeBracket = line.lastIndexOf(')');
     const atSymbol = line.lastIndexOf('@');
@@ -80,6 +90,9 @@
     if (method["learnCode"][0] != 8) {
       prefix += " in Generation " + method["learnCode"][0];
     }
+    if (method["sketch"] === true) {
+      prefix += " via Sketch, obtained";
+    }
     return (prefix + getLearnString(method))
   }
 
@@ -88,12 +101,21 @@
     let methods = [];
     let allMethods = learnset[idify(move)];
     if (allMethods === undefined) {
+      if (idify(move) !== 'sketch') {
+        sketchMethods = getMethods(pokemon, 'Sketch');
+        for (i of sketchMethods) {
+          if (!unsketchable[i['gen']].includes(idify(move))) {
+            i['sketch'] = true;
+            methods.push(i);
+          }
+        }
+      }
       return methods;
     }
 
     allMethods.forEach(el => {
     if (el[0] >= document.getElementById('mode-value').value) {
-        methods.push({name: [pokemon], learnCode: el, gen: el[0], method: el[1], extra: [el.substring(2)]});
+        methods.push({name: [pokemon], learnCode: el, gen: el[0], method: el[1], extra: [el.substring(2)], sketch: false});
       }
     });
     return methods;
@@ -110,6 +132,35 @@
     return results;
   }
 
+  function collectDifferentExtraData(arr) {
+    result = [];
+    arr.forEach(method => {
+      for (i of result) {
+        if (method.gen === i.gen && method.method === i.method && method.name.join(",") === i.name.join(",")) {
+          i.extra = [...method.extra, ...i.extra];
+          i.learnCode = i.learnCode.substring(0, 2);
+          return;
+        }
+      }
+      result.push(method);
+    });
+    return result
+  }
+
+  function collectDifferentPokemon(arr) {
+    result = [];
+    arr.forEach(method => {
+      for (i of result) {
+        if (method.gen === i.gen && method.method === i.method && method.extra.join(",") === i.extra.join(",")) {
+          i.name = [...i.name, ...method.name];
+          return;
+        }
+      }
+      result.push(method);
+    });
+    return result;
+  }
+
   function calc() {
     let moveset = parseSet(document.getElementById('moveset').value);
     let list = document.getElementById('resultList');
@@ -119,7 +170,6 @@
       list.firstChild.remove();
     }
 
-    let learnset = BattleLearnsets[idify(moveset['name'])]['learnset'];
     moveset['moves'].forEach((move) => {
       let element = document.createElement('li');
       let methods = [];
@@ -132,27 +182,9 @@
 
       collectedMethods = []
 
-      methods.forEach(method => {
-        for (i of collectedMethods) {
-          if (method.gen === i.gen && method.method === i.method && method.name.join(",") === i.name.join(",")) {
-            i.extra = [...method.extra, ...i.extra];
-            i.learnCode = i.learnCode.substring(0, 2);
-            return;
-          }
-        }
-        collectedMethods.push(method);
-      });
+      methods = collectDifferentExtraData(methods);
 
-      methods = [];
-      collectedMethods.forEach(method => {
-        for (i of methods) {
-          if (method.gen === i.gen && method.method === i.method && method.extra.join(",") === i.extra.join(",")) {
-            i.name = [...i.name, ...method.name];
-            return;
-          }
-        }
-        methods.push(method);
-      });
+      methods = collectDifferentPokemon(methods);
 
       if (methods.length == 0) {
         element.textContent = moveset['name'] + ' does not learn ' + move + ' in VGC2020.';
