@@ -132,7 +132,7 @@
     return results;
   }
 
-  function collectDifferentExtraData(arr) {
+  function collectExtraData(arr) {
     result = [];
     arr.forEach(method => {
       for (i of result) {
@@ -147,7 +147,7 @@
     return result
   }
 
-  function collectDifferentPokemon(arr) {
+  function collectPokemon(arr) {
     result = [];
     arr.forEach(method => {
       for (i of result) {
@@ -171,7 +171,7 @@
     }
 
     moveset['moves'].forEach((move) => {
-      let element = document.createElement('li');
+      let element = document.createElement('details');
       let methods = [];
 
       line.forEach(pokemon => {
@@ -180,18 +180,16 @@
         });
       });
 
-      collectedMethods = []
-
-      methods = collectDifferentExtraData(methods);
-
-      methods = collectDifferentPokemon(methods);
+      methods = collectPokemon(collectExtraData(methods));
 
       if (methods.length == 0) {
+        element = document.createElement('p');
         element.textContent = moveset['name'] + ' does not learn ' + move + ' in VGC2020.';
       } else {
-        element.appendChild(document.createTextNode(moveset['name'] + ' learns ' + move));
-        if (methods.length > 1) {
-          element.appendChild(document.createTextNode(':'));
+        let summary = document.createElement('summary');
+        summary.appendChild(document.createTextNode(move));
+        element.appendChild(summary);
+        console.log(move);
           let ul = document.createElement('ul');
           methods.forEach(el => {
             let li = document.createElement('li');
@@ -199,9 +197,7 @@
             ul.appendChild(li);
           });
           element.appendChild(ul);
-        } else {
-          element.appendChild(document.createTextNode(getLearnSuffix(moveset, methods[0])));
-        }
+        element.open = true;
       }
       list.appendChild(element);
     });

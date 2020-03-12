@@ -5,3 +5,9 @@ body {
 label.mode {
   margin-top: 0.5rem;
 }
+
+#resultList > p {
+  list-style-type: '× ';
+  list-style-position: inside;
+  display: list-item;
+}
