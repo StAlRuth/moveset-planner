@@ -20,7 +20,13 @@
       if (atSymbol > closeBracket) {
         line = line.substring(0, atSymbol);
       }
-      return line.substring(line.lastIndexOf('(') + 1, closeBracket);
+      // need to suss out gender
+      let candidate = line.substring(line.lastIndexOf('(') + 1, closeBracket);
+      if (candidate.length == 1) {
+        line = line.substring(0, line.lastIndexOf('('));
+        candidate = line.substring(line.lastIndexOf('(') + 1, closeBracket);
+      }
+      return candidate;
     }
   }
 
