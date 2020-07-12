@@ -129,6 +129,9 @@
 
   function walkEvoLine(name) {
     let results = [BattlePokedex[idify(name)]['species']];
+    if("baseSpecies" in BattlePokedex[idify(name)]) {
+      return results.concat(walkEvoLine(BattlePokedex[idify(name)]['baseSpecies']));
+    }
     if("prevo" in BattlePokedex[idify(name)]) {
       return results.concat(walkEvoLine(BattlePokedex[idify(name)]['prevo']));
     }
@@ -181,9 +184,11 @@
       let methods = [];
 
       line.forEach(pokemon => {
-        getMethods(pokemon, move).forEach(method => {
-          methods.push(method);
-        });
+        if (BattleLearnsets[idify(pokemon)]) {
+          getMethods(pokemon, move).forEach(method => {
+            methods.push(method);
+          });
+        }
       });
 
       methods = collectPokemon(collectExtraData(methods));
