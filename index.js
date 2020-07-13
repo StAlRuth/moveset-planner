@@ -128,7 +128,7 @@
   }
 
   function walkEvoLine(name) {
-    let results = [BattlePokedex[idify(name)]['species']];
+    let results = [BattlePokedex[idify(name)]['name']];
     if("baseSpecies" in BattlePokedex[idify(name)]) {
       return results.concat(walkEvoLine(BattlePokedex[idify(name)]['baseSpecies']));
     }
@@ -173,7 +173,7 @@
   function calc() {
     let moveset = parseSet(document.getElementById('moveset').value);
     let list = document.getElementById('resultList');
-    let line = walkEvoLine(moveset['name'])
+    let line = walkEvoLine(moveset['name']);
 
     while (list.firstChild) {
       list.firstChild.remove();
@@ -200,7 +200,6 @@
         let summary = document.createElement('summary');
         summary.appendChild(document.createTextNode(move));
         element.appendChild(summary);
-        console.log(move);
           let ul = document.createElement('ul');
           methods.forEach(el => {
             let li = document.createElement('li');
