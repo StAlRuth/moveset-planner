@@ -1,0 +1,755 @@
+//  Foundation for Sites Settings
+//  -----------------------------
+//
+//  Table of Contents:
+//
+//   1. Global
+//   2. Breakpoints
+//   3. The Grid
+//   4. Base Typography
+//   5. Typography Helpers
+//   6. Abide
+//   7. Accordion
+//   8. Accordion Menu
+//   9. Badge
+//  10. Breadcrumbs
+//  11. Button
+//  12. Button Group
+//  13. Callout
+//  14. Card
+//  15. Close Button
+//  16. Drilldown
+//  17. Dropdown
+//  18. Dropdown Menu
+//  19. Flexbox Utilities
+//  20. Forms
+//  21. Label
+//  22. Media Object
+//  23. Menu
+//  24. Meter
+//  25. Off-canvas
+//  26. Orbit
+//  27. Pagination
+//  28. Progress Bar
+//  29. Prototype Arrow
+//  30. Prototype Border-Box
+//  31. Prototype Border-None
+//  32. Prototype Bordered
+//  33. Prototype Display
+//  34. Prototype Font-Styling
+//  35. Prototype List-Style-Type
+//  36. Prototype Overflow
+//  37. Prototype Position
+//  38. Prototype Rounded
+//  39. Prototype Separator
+//  40. Prototype Shadow
+//  41. Prototype Sizing
+//  42. Prototype Spacing
+//  43. Prototype Text-Decoration
+//  44. Prototype Text-Transformation
+//  45. Prototype Text-Utilities
+//  46. Responsive Embed
+//  47. Reveal
+//  48. Slider
+//  49. Switch
+//  50. Table
+//  51. Tabs
+//  52. Thumbnail
+//  53. Title Bar
+//  54. Tooltip
+//  55. Top Bar
+//  56. Xy Grid
+
+@import 'colours';
+
+// 1. Global
+// ---------
+
+$global-font-size: 100%;
+$global-width: rem-calc(1200);
+$global-lineheight: 1.5;
+$body-font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
+$body-antialiased: true;
+$global-margin: 1rem;
+$global-padding: 1rem;
+$global-position: 1rem;
+$global-weight-normal: normal;
+$global-weight-bold: bold;
+$global-radius: 0;
+$global-menu-padding: 0.7rem 1rem;
+$global-menu-nested-margin: 1rem;
+$global-text-direction: ltr;
+$global-flexbox: true;
+$global-prototype-breakpoints: false;
+$global-button-cursor: auto;
+$global-color-pick-contrast-tolerance: 0;
+$print-transparent-backgrounds: true;
+$print-hrefs: true;
+
+// 2. Breakpoints
+// --------------
+
+$breakpoints: (
+  small: 0,
+  medium: 640px,
+  large: 1024px,
+  xlarge: 1200px,
+  xxlarge: 1440px,
+);
+$breakpoints-hidpi: (
+  hidpi-1: 1,
+  hidpi-1-5: 1.5,
+  hidpi-2: 2,
+  retina: 2,
+  hidpi-3: 3
+);
+$print-breakpoint: large;
+$breakpoint-classes: (small medium large);
+
+// 3. The Grid
+// -----------
+
+$grid-row-width: $global-width;
+$grid-column-count: 12;
+$grid-column-gutter: (
+  small: 20px,
+  medium: 30px,
+);
+$grid-column-align-edge: true;
+$grid-column-alias: 'columns';
+$block-grid-max: 8;
+
+// 4. Base Typography
+// ------------------
+
+$header-font-family: $body-font-family;
+$header-font-weight: $global-weight-normal;
+$header-font-style: normal;
+$font-family-monospace: Consolas, 'Liberation Mono', Courier, monospace;
+$header-lineheight: 1.4;
+$header-margin-bottom: 0.5rem;
+$header-styles: (
+  small: (
+    'h1': ('font-size': 24),
+    'h2': ('font-size': 20),
+    'h3': ('font-size': 19),
+    'h4': ('font-size': 18),
+    'h5': ('font-size': 17),
+    'h6': ('font-size': 16),
+  ),
+  medium: (
+    'h1': ('font-size': 48),
+    'h2': ('font-size': 40),
+    'h3': ('font-size': 31),
+    'h4': ('font-size': 25),
+    'h5': ('font-size': 20),
+    'h6': ('font-size': 16),
+  ),
+);
+$header-text-rendering: optimizeLegibility;
+$small-font-size: 80%;
+$paragraph-lineheight: 1.6;
+$paragraph-margin-bottom: 1rem;
+$paragraph-text-rendering: optimizeLegibility;
+$enable-code-inline: true;
+$anchor-text-decoration: none;
+$anchor-text-decoration-hover: none;
+$hr-width: $global-width;
+$hr-border: 1px solid $hr-border-color;
+$hr-margin: rem-calc(20) auto;
+$list-lineheight: $paragraph-lineheight;
+$list-margin-bottom: $paragraph-margin-bottom;
+$list-style-type: disc;
+$list-style-position: outside;
+$list-side-margin: 1.25rem;
+$list-nested-side-margin: 1.25rem;
+$defnlist-margin-bottom: 1rem;
+$defnlist-term-weight: $global-weight-bold;
+$defnlist-term-margin-bottom: 0.3rem;
+$blockquote-padding: rem-calc(9 20 0 19);
+$blockquote-border: 1px solid $blockquote-border-color;
+$enable-cite-block: true;
+$keystroke-font: $font-family-monospace;
+$keystroke-padding: rem-calc(2 4 0);
+$keystroke-radius: $global-radius;
+$abbr-underline: 1px dotted $abbr-underline-color;
+
+// 5. Typography Helpers
+// ---------------------
+
+$lead-font-size: $global-font-size * 1.25;
+$lead-lineheight: 1.6;
+$subheader-lineheight: 1.4;
+$subheader-font-weight: $global-weight-normal;
+$subheader-margin-top: 0.2rem;
+$subheader-margin-bottom: 0.5rem;
+$stat-font-size: 2.5rem;
+$cite-font-size: rem-calc(13);
+$cite-pseudo-content: '\2014 \0020';
+$code-font-family: $font-family-monospace;
+$code-font-weight: $global-weight-normal;
+$code-border: 1px solid $code-border-color;
+$code-padding: rem-calc(2 5 1);
+$code-block-padding: 1rem;
+$code-block-margin-bottom: 1.5rem;
+
+// 6. Abide
+// --------
+
+$abide-inputs: true;
+$abide-labels: true;
+$input-error-font-size: rem-calc(12);
+$input-error-font-weight: $global-weight-bold;
+
+// 7. Accordion
+// ------------
+
+$accordion-plusminus: true;
+$accordion-plus-content: '\002B';
+$accordion-minus-content: '\2013';
+$accordion-title-font-size: rem-calc(12);
+$accordion-item-padding: 1.25rem 1rem;
+$accordion-content-border: 1px solid $accordion-content-border-color;
+$accordion-content-padding: 1rem;
+
+// 8. Accordion Menu
+// -----------------
+
+$accordionmenu-padding: $global-menu-padding;
+$accordionmenu-nested-margin: $global-menu-nested-margin;
+$accordionmenu-submenu-padding: $accordionmenu-padding;
+$accordionmenu-arrows: true;
+$accordionmenu-item-background: null;
+$accordionmenu-border: null;
+$accordionmenu-submenu-toggle-background: null;
+$accordion-submenu-toggle-border: $accordionmenu-border;
+$accordionmenu-submenu-toggle-width: 40px;
+$accordionmenu-submenu-toggle-height: $accordionmenu-submenu-toggle-width;
+$accordionmenu-arrow-size: 6px;
+
+// 9. Badge
+// --------
+
+$badge-padding: 0.3em;
+$badge-minwidth: 2.1em;
+$badge-font-size: 0.6rem;
+
+// 10. Breadcrumbs
+// ---------------
+
+$breadcrumbs-margin: 0 0 $global-margin 0;
+$breadcrumbs-item-font-size: rem-calc(11);
+$breadcrumbs-item-margin: 0.75rem;
+$breadcrumbs-item-uppercase: true;
+$breadcrumbs-item-separator: true;
+$breadcrumbs-item-separator-item: '/';
+$breadcrumbs-item-separator-item-rtl: '\\';
+
+// 11. Button
+// ----------
+
+$button-font-family: inherit;
+$button-font-weight: null;
+$button-padding: 0.85em 1em;
+$button-margin: 0 0 $global-margin 0;
+$button-fill: solid;
+$button-radius: $global-radius;
+$button-border: 1px solid transparent;
+$button-hollow-border-width: 1px;
+$button-sizes: (
+  tiny: 0.6rem,
+  small: 0.75rem,
+  default: 0.9rem,
+  large: 1.25rem,
+);
+$button-opacity-disabled: 0.25;
+$button-background-hover-lightness: -20%;
+$button-hollow-hover-lightness: -50%;
+$button-transition: background-color 0.25s ease-out, color 0.25s ease-out;
+$button-responsive-expanded: false;
+
+// 12. Button Group
+// ----------------
+
+$buttongroup-margin: 1rem;
+$buttongroup-spacing: 1px;
+$buttongroup-child-selector: '.button';
+$buttongroup-expand-max: 6;
+$buttongroup-radius-on-each: true;
+
+// 13. Callout
+// -----------
+
+$callout-background-fade: 85%;
+$callout-border: 1px solid $callout-border-color;
+$callout-margin: 0 0 1rem 0;
+$callout-sizes: (
+  small: 0.5rem,
+  default: 1rem,
+  large: 3rem,
+);
+$callout-radius: $global-radius;
+$callout-link-tint: 30%;
+
+// 14. Card
+// --------
+
+$card-border: 1px solid $card-border-color;
+$card-shadow: none;
+$card-border-radius: $global-radius;
+$card-padding: $global-padding;
+$card-margin-bottom: $global-margin;
+
+// 15. Close Button
+// ----------------
+
+$closebutton-position: right top;
+$closebutton-z-index: 10;
+$closebutton-default-size: medium;
+$closebutton-offset-horizontal: (
+  small: 0.66rem,
+  medium: 1rem,
+);
+$closebutton-offset-vertical: (
+  small: 0.33em,
+  medium: 0.5rem,
+);
+$closebutton-size: (
+  small: 1.5em,
+  medium: 2em,
+);
+$closebutton-lineheight: 1;
+
+// 16. Drilldown
+// -------------
+
+$drilldown-transition: transform 0.15s linear;
+$drilldown-arrows: true;
+$drilldown-padding: $global-menu-padding;
+$drilldown-nested-margin: 0;
+$drilldown-submenu-padding: $drilldown-padding;
+$drilldown-arrow-size: 6px;
+
+// 17. Dropdown
+// ------------
+
+$dropdown-padding: 1rem;
+$dropdown-border: 1px solid $dropdown-border-color;
+$dropdown-font-size: 1rem;
+$dropdown-width: 300px;
+$dropdown-radius: $global-radius;
+$dropdown-sizes: (
+  tiny: 100px,
+  small: 200px,
+  large: 400px,
+);
+
+// 18. Dropdown Menu
+// -----------------
+
+$dropdownmenu-arrows: true;
+$dropdownmenu-arrow-size: 6px;
+$dropdownmenu-arrow-padding: 1.5rem;
+$dropdownmenu-min-width: 200px;
+$dropdownmenu-background: null;
+$dropdownmenu-padding: $global-menu-padding;
+$dropdownmenu-nested-margin: 0;
+$dropdownmenu-submenu-padding: $dropdownmenu-padding;
+$dropdownmenu-border: 1px solid $dropdownmenu-border-color;
+$dropdown-menu-item-background-active: transparent;
+
+// 19. Flexbox Utilities
+// ---------------------
+
+$flex-source-ordering-count: 6;
+$flexbox-responsive-breakpoints: true;
+
+// 20. Forms
+// ---------
+
+$fieldset-border: 1px solid $fieldset-border-color;
+$fieldset-padding: rem-calc(20);
+$fieldset-margin: rem-calc(18 0);
+$legend-padding: rem-calc(0 3);
+$form-spacing: rem-calc(16);
+$helptext-font-size: rem-calc(13);
+$helptext-font-style: italic;
+$input-prefix-border: 1px solid $input-prefix-border-color;
+$input-prefix-padding: 1rem;
+$form-label-font-size: rem-calc(14);
+$form-label-font-weight: $global-weight-normal;
+$form-label-line-height: 1.8;
+$select-radius: $global-radius;
+$input-font-family: inherit;
+$input-font-size: rem-calc(16);
+$input-font-weight: $global-weight-normal;
+$input-line-height: $global-lineheight;
+$input-border: 1px solid $input-border-color;
+$input-border-focus: 1px solid $input-border-focus-color;
+$input-padding: $form-spacing / 2;
+$input-shadow: inset 0 1px 2px $input-shadow-color;
+$input-shadow-focus: 0 0 5px $input-shadow-focus-color;;
+$input-cursor-disabled: not-allowed;
+$input-transition: box-shadow 0.5s, border-color 0.25s ease-in-out;
+$input-number-spinners: true;
+$input-radius: $global-radius;
+$form-button-radius: $global-radius;
+
+// 21. Label
+// ---------
+
+$label-font-size: 0.8rem;
+$label-padding: 0.33333rem 0.5rem;
+$label-radius: $global-radius;
+
+// 22. Media Object
+// ----------------
+
+$mediaobject-margin-bottom: $global-margin;
+$mediaobject-section-padding: $global-padding;
+$mediaobject-image-width-stacked: 100%;
+
+// 23. Menu
+// --------
+
+$menu-margin: 0;
+$menu-nested-margin: $global-menu-nested-margin;
+$menu-items-padding: $global-menu-padding;
+$menu-simple-margin: 1rem;
+$menu-icon-spacing: 0.25rem;
+$menu-state-back-compat: true;
+$menu-centered-back-compat: true;
+$menu-icons-back-compat: true;
+
+// 24. Meter
+// ---------
+
+$meter-height: 1rem;
+$meter-radius: $global-radius;
+
+// 25. Off-canvas
+// --------------
+
+$offcanvas-sizes: (
+  small: 250px,
+);
+$offcanvas-vertical-sizes: (
+  small: 250px,
+);
+$offcanvas-shadow: 0 0 10px $offcanvas-shadow-color;
+$offcanvas-inner-shadow-size: 20px;
+$offcanvas-overlay-zindex: 11;
+$offcanvas-push-zindex: 12;
+$offcanvas-overlap-zindex: 13;
+$offcanvas-reveal-zindex: 12;
+$offcanvas-transition-length: 0.5s;
+$offcanvas-transition-timing: ease;
+$offcanvas-fixed-reveal: true;
+$maincontent-class: 'off-canvas-content';
+
+// 26. Orbit
+// ---------
+
+$orbit-bullet-diameter: 1.2rem;
+$orbit-bullet-margin: 0.1rem;
+$orbit-bullet-margin-top: 0.8rem;
+$orbit-bullet-margin-bottom: 0.8rem;
+$orbit-caption-padding: 1rem;
+$orbit-control-padding: 1rem;
+$orbit-control-zindex: 10;
+
+// 27. Pagination
+// --------------
+
+$pagination-font-size: rem-calc(14);
+$pagination-margin-bottom: $global-margin;
+$pagination-item-padding: rem-calc(3 10);
+$pagination-item-spacing: rem-calc(1);
+$pagination-radius: $global-radius;
+$pagination-mobile-items: false;
+$pagination-mobile-current-item: false;
+$pagination-arrows: true;
+$pagination-arrow-previous: '\00AB';
+$pagination-arrow-next: '\00BB';
+
+// 28. Progress Bar
+// ----------------
+
+$progress-height: 1rem;
+$progress-margin-bottom: $global-margin;
+$progress-radius: $global-radius;
+
+// 29. Prototype Arrow
+// -------------------
+
+$prototype-arrow-directions: (
+  down,
+  up,
+  right,
+  left
+);
+$prototype-arrow-size: 0.4375rem;
+
+// 30. Prototype Border-Box
+// ------------------------
+
+$prototype-border-box-breakpoints: $global-prototype-breakpoints;
+
+// 31. Prototype Border-None
+// -------------------------
+
+$prototype-border-none-breakpoints: $global-prototype-breakpoints;
+
+// 32. Prototype Bordered
+// ----------------------
+
+$prototype-bordered-breakpoints: $global-prototype-breakpoints;
+$prototype-border-width: rem-calc(1);
+$prototype-border-type: solid;
+
+// 33. Prototype Display
+// ---------------------
+
+$prototype-display-breakpoints: $global-prototype-breakpoints;
+$prototype-display: (
+  inline,
+  inline-block,
+  block,
+  table,
+  table-cell
+);
+
+// 34. Prototype Font-Styling
+// --------------------------
+
+$prototype-font-breakpoints: $global-prototype-breakpoints;
+$prototype-wide-letter-spacing: rem-calc(4);
+$prototype-font-normal: $global-weight-normal;
+$prototype-font-bold: $global-weight-bold;
+
+// 35. Prototype List-Style-Type
+// -----------------------------
+
+$prototype-list-breakpoints: $global-prototype-breakpoints;
+$prototype-style-type-unordered: (
+  disc,
+  circle,
+  square
+);
+$prototype-style-type-ordered: (
+  decimal,
+  lower-alpha,
+  lower-latin,
+  lower-roman,
+  upper-alpha,
+  upper-latin,
+  upper-roman
+);
+
+// 36. Prototype Overflow
+// ----------------------
+
+$prototype-overflow-breakpoints: $global-prototype-breakpoints;
+$prototype-overflow: (
+  visible,
+  hidden,
+  scroll
+);
+
+// 37. Prototype Position
+// ----------------------
+
+$prototype-position-breakpoints: $global-prototype-breakpoints;
+$prototype-position: (
+  static,
+  relative,
+  absolute,
+  fixed
+);
+$prototype-position-z-index: 975;
+
+// 38. Prototype Rounded
+// ---------------------
+
+$prototype-rounded-breakpoints: $global-prototype-breakpoints;
+$prototype-border-radius: rem-calc(3);
+
+// 39. Prototype Separator
+// -----------------------
+
+$prototype-separator-breakpoints: $global-prototype-breakpoints;
+$prototype-separator-align: center;
+$prototype-separator-height: rem-calc(2);
+$prototype-separator-width: 3rem;
+$prototype-separator-margin-top: $global-margin;
+
+// 40. Prototype Shadow
+// --------------------
+
+$prototype-shadow-breakpoints: $global-prototype-breakpoints;
+$prototype-box-shadow: 0 2px 5px 0 $prototype-box-shadow-color-tb,
+                       0 2px 10px 0 $prototype-box-shadow-color-rl;
+
+// 41. Prototype Sizing
+// --------------------
+
+$prototype-sizing-breakpoints: $global-prototype-breakpoints;
+$prototype-sizing: (
+  width,
+  height
+);
+$prototype-sizes: (
+  25: 25%,
+  50: 50%,
+  75: 75%,
+  100: 100%
+);
+
+// 42. Prototype Spacing
+// ---------------------
+
+$prototype-spacing-breakpoints: $global-prototype-breakpoints;
+$prototype-spacers-count: 3;
+
+// 43. Prototype Text-Decoration
+// -----------------------------
+
+$prototype-decoration-breakpoints: $global-prototype-breakpoints;
+$prototype-text-decoration: (
+  overline,
+  underline,
+  line-through,
+);
+
+// 44. Prototype Text-Transformation
+// ---------------------------------
+
+$prototype-transformation-breakpoints: $global-prototype-breakpoints;
+$prototype-text-transformation: (
+  lowercase,
+  uppercase,
+  capitalize
+);
+
+// 45. Prototype Text-Utilities
+// ----------------------------
+
+$prototype-utilities-breakpoints: $global-prototype-breakpoints;
+$prototype-text-overflow: ellipsis;
+
+// 46. Responsive Embed
+// --------------------
+
+$responsive-embed-margin-bottom: rem-calc(16);
+$responsive-embed-ratios: (
+  default: 4 by 3,
+  widescreen: 16 by 9,
+);
+
+// 47. Reveal
+// ----------
+
+$reveal-width: 600px;
+$reveal-max-width: $global-width;
+$reveal-padding: $global-padding;
+$reveal-border: 1px solid $reveal-border-color;
+$reveal-radius: $global-radius;
+$reveal-zindex: 1005;
+
+// 48. Slider
+// ----------
+
+$slider-width-vertical: 0.5rem;
+$slider-transition: all 0.2s ease-in-out;
+$slider-height: 0.5rem;
+$slider-handle-height: 1.4rem;
+$slider-handle-width: 1.4rem;
+$slider-opacity-disabled: 0.25;
+$slider-radius: $global-radius;
+
+// 49. Switch
+// ----------
+
+$switch-height: 2rem;
+$switch-height-tiny: 1.5rem;
+$switch-height-small: 1.75rem;
+$switch-height-large: 2.5rem;
+$switch-radius: $global-radius;
+$switch-margin: $global-margin;
+$switch-paddle-offset: 0.25rem;
+$switch-paddle-radius: $global-radius;
+$switch-paddle-transition: all 0.25s ease-out;
+$switch-opacity-disabled: .5;
+$switch-cursor-disabled: not-allowed;
+
+// 50. Table
+// ---------
+
+$table-border: 1px solid $table-border-color;
+$table-padding: rem-calc(8 10 10);
+$table-is-striped: true;
+$table-stripe: even;
+$show-header-for-stacked: false;
+$table-stack-breakpoint: medium;
+
+// 51. Tabs
+// --------
+
+$tab-margin: 0;
+$tab-item-font-size: rem-calc(12);
+$tab-item-padding: 1.25rem 1.5rem;
+$tab-content-padding: 1rem;
+
+// 52. Thumbnail
+// -------------
+
+$thumbnail-border: 4px solid $thumbnail-border-color;
+$thumbnail-margin-bottom: $global-margin;
+$thumbnail-shadow: 0 0 0 1px $thumbnail-shadow-color;
+$thumbnail-shadow-hover: 0 0 6px 1px $thumbnail-shadow-hover-color;
+$thumbnail-transition: box-shadow 200ms ease-out;
+$thumbnail-radius: $global-radius;
+
+// 53. Title Bar
+// -------------
+
+$titlebar-padding: 0.5rem;
+$titlebar-text-font-weight: bold;
+$titlebar-icon-spacing: 0.25rem;
+
+// 54. Tooltip
+// -----------
+
+$has-tip-cursor: help;
+$has-tip-font-weight: $global-weight-bold;
+$has-tip-border-bottom: dotted 1px $has-tip-border-bottom-color;
+$tooltip-padding: 0.75rem;
+$tooltip-max-width: 10rem;
+$tooltip-font-size: $small-font-size;
+$tooltip-pip-width: 0.75rem;
+$tooltip-pip-height: $tooltip-pip-width * 0.866;
+$tooltip-radius: $global-radius;
+
+// 55. Top Bar
+// -----------
+
+$topbar-padding: 0.5rem;
+$topbar-title-spacing: 0.5rem 1rem 0.5rem 0;
+$topbar-input-width: 200px;
+$topbar-unstack-breakpoint: medium;
+
+// 56. Xy Grid
+// -----------
+
+$xy-grid: true;
+$grid-container: $global-width;
+$grid-columns: 12;
+$grid-margin-gutters: (
+  small: 20px,
+  medium: 30px
+);
+$grid-padding-gutters: $grid-margin-gutters;
+$grid-container-padding: $grid-padding-gutters;
+$grid-container-max: $global-width;
+$xy-block-grid-max: 8;
+
