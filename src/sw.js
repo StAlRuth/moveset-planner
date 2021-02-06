@@ -9,4 +9,7 @@ setupPrecaching(urlsToCache);
 
 import { getFiles, setupPrecaching } from 'preact-cli/sw/';
 
-setupPrecaching(getFiles());
+const urlsToCache = getFiles();
+urlsToCache.push({ url: '/data/learnsets.json', revision: '2021-02-06' });
+
+setupPrecaching(urlsToCache);
