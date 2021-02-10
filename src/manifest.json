@@ -1,7 +1,7 @@
 {
   "name": "Pokemon Moveset Planner",
   "short_name": "Moveset Planner",
-  "start_url": "https://goofy-perlman-c8590e.netlify.app/",
+  "start_url": "https://moveset-planner.stalruth.dev/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#fff",
