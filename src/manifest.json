@@ -8,7 +8,18 @@
   "theme_color": "#11a",
   "icons": [
     {
-      "src": "/assets/icon.png",
+      "src": "/assets/icons/android-chrome-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/assets/icons/maskable-icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icons/android-chrome-512x512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
